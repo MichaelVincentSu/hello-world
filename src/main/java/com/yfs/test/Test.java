@@ -14,6 +14,7 @@ public class Test {
 
     public static void main(String[] args) {
         System.out.println(JSON.toJSONString(calculateEqualPrincipalAndInterest(700000,360,5.39)));
+        System.out.println(JSON.toJSONString(calculateEqualPrincipalAndInterest(700000,360,60,5.39)));
     }
 
     /**
@@ -35,7 +36,28 @@ public class Test {
         data.add(getString(interest));//还款总利息
         data.add(getString(preLoan));//每月还款金额
         data.add(String.valueOf(months));//还款期限
+
+        double getMonthRate = 0.0033;
+        data.add(getString(getMonthRate));//月获得利率
+        data.add(getString(countMoney(300000,getMonthRate,preLoan,360)-300000-(360*preLoan)));//总获得利息
+
         return data.toArray(new String[data.size()]);
+    }
+
+
+
+    private static double countMoney(int principal, double interest_rate, double every_money, int count_month) {
+        double total_sum = 0;
+        for (int i = 1; i <= count_month; i++) {
+            if(total_sum == 0){
+                total_sum = (principal) * (1+interest_rate);
+            }else{
+                total_sum = (principal+every_money) * (1+interest_rate);
+            }
+            principal = (int) total_sum;
+            System.out.println("第"+i+"次的利息："+(total_sum-300000-((i-1)*every_money)));
+        }
+        return total_sum;
     }
 
     /**
