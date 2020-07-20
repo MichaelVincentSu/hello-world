@@ -2,6 +2,7 @@ package com.yfs.test;
 
 import com.alibaba.fastjson.JSON;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +11,15 @@ import java.util.List;
  * @Author 于凡粟
  * @Date 2020/5/18 9:45 上午
  */
-public class Test {
+public class TestRate {
 
     public static void main(String[] args) {
-        System.out.println(JSON.toJSONString(calculateEqualPrincipalAndInterest(1200000,360,5.39)));
+        //System.out.println(JSON.toJSONString(calculateEqualPrincipalAndInterest(1200000,360,5.39)));
         //System.out.println(JSON.toJSONString(calculateEqualPrincipalAndInterest(700000,360,60,5.39)));
-        System.out.println(JSON.toJSONString(countMoney(300000, 0.00355208, 6730, 360)));
+        BigDecimal bigDecimal = new BigDecimal(countMoney(60000, 0.003416, 0, 36));
+        System.out.println(bigDecimal.toString());
+        //System.out.println(JSON.toJSONString(countMoney(10000, 0.02, 0, 360)));
+        //System.out.println(JSON.toJSONString(countYearMoney(200000, 0.04, 72000, 30)));
     }
 
     /**
@@ -58,11 +62,40 @@ public class Test {
             }
             principal = (int) total_sum;
             ////if (i == count_month) {
-                System.out.println(i + "：" + (total_sum - pr - ((i - 1) * every_money)));
+                System.out.println("第"+i + "月的复利：" + getDoubleString(total_sum - pr - ((i - 1) * every_money)));
             //}
 
         }
         return total_sum;
+    }
+    private static double countYearMoney(int principal, double interest_rate, double every_money, int count_year) {
+        double total_sum = 0;
+        int pr = principal;
+        double ev = every_money;
+        for (int i = 1; i <= count_year; i++) {
+            if (total_sum == 0) {
+                total_sum = (principal) * (1 + interest_rate);
+            } else {
+                total_sum = (principal + every_money) * (1 + interest_rate);
+            }
+            principal = (int) total_sum;
+            ////if (i == count_month) {
+                System.out.println("第"+i + "年的复利：" + getDoubleString(total_sum - pr - ((i - 1) * every_money)));
+            //}
+
+        }
+        return total_sum;
+    }
+    public static String getDoubleString(double number) {
+        String numberStr;
+        if (((int) number * 1000) == (int) (number * 1000)) {
+            //如果是一个整数
+            numberStr = String.valueOf((int) number);
+        } else {
+            DecimalFormat df = new DecimalFormat("######0");
+            numberStr = df.format(number);
+        }
+        return numberStr;
     }
 
     /**
