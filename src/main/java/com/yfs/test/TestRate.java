@@ -16,7 +16,7 @@ public class TestRate {
     public static void main(String[] args) {
         //System.out.println(JSON.toJSONString(calculateEqualPrincipalAndInterest(1200000,360,5.39)));
         //System.out.println(JSON.toJSONString(calculateEqualPrincipalAndInterest(700000,360,60,5.39)));
-        BigDecimal bigDecimal = new BigDecimal(countMoney(60000, 0.003416, 0, 36));
+        BigDecimal bigDecimal = new BigDecimal(countMoney(2000, 0.01, 2000, 120));
         System.out.println(bigDecimal.toString());
         //System.out.println(JSON.toJSONString(countMoney(10000, 0.02, 0, 360)));
         //System.out.println(JSON.toJSONString(countYearMoney(200000, 0.04, 72000, 30)));
